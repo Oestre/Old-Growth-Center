@@ -21,7 +21,7 @@ h1,h2,h3{color:var(--text-strong);font-weight:700;font-family:'Playfair Display'
 a{color:var(--accent-green);font-weight:500}
 
 /* top bar — lichess style */
-.topbar{background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:4px;padding:0 14px;height:50px;position:sticky;top:0;z-index:50
+.topbar{background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:4px;padding:0 14px;height:50px;position:sticky;top:0;z-index:50}
 .topbar::after {
   content: "";
   position: absolute;
@@ -30,11 +30,6 @@ a{color:var(--accent-green);font-weight:500}
   right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent-green) 20%, var(--accent-green) 80%, transparent);
-}
-
-.topbar {
-  position: relative;
-}
 }
 .brand{font-size:20px;font-weight:700;color:var(--text-strong);letter-spacing:.3px;margin-right:14px;white-space:nowrap;font-family:'Playfair Display',serif;text-transform:uppercase}
 .brand b{color:var(--accent-green);font-weight:700}
@@ -5104,7 +5099,8 @@ function vltRefreshRep(){
 }
 function vltSyncPuzzles(){
   PUZZLES.length = PZ_STATIC;
-  if(typeof FAMOUS_PUZZLES!=="undefined") FAMOUS_PUZZLES.forEach(p=>PUZZLES.push(p));
+  if(typeof FAMOUS_PUZZLES!=="undefined") FAMOUS_PUZZLES.forEach(p=>{ if(!PUZZLES.some(q=>q._pid===p._pid)) PUZZLES.push(p); });
+  if(typeof ENDGAMES!=="undefined") ENDGAMES.forEach(p=>{ if(!PUZZLES.some(q=>q._pid===p._pid)) PUZZLES.push(p); });
   VAULT_PZ.forEach(p=>PUZZLES.push(p));
   try{ renderPzList(); }catch(e){}
 }
